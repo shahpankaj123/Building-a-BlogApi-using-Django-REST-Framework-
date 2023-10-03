@@ -23,5 +23,21 @@ class RegisterView(APIView):
             })
 
 
+class Loginview(APIView):
+    def post(self,request):
+        data=request.data
+        serializer=Loginserializer(data=data)
+        
+        if not serializer.is_valid():
+            return Response({
+                'data':serializer.errors,
+                'msg':'something went wrong'
+            })
+        
+        response=serializer.get_jwt_token(serializer.data)
 
-# Create your views here.
+        return Response(response)
+
+
+
+
